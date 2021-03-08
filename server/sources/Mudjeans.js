@@ -9,16 +9,16 @@ const cheerio = require('cheerio');
 const parse = data => {
   const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
+  return $('.product-meta') //.product-meta
     .map((i, element) => {
       const name = $(element)
-        .find('.productList-title')
+        .find('.product-title')//.product-title
         .text()
         .trim()
         .replace(/\s/g, ' ');
       const price = parseInt(
         $(element)
-          .find('.productList-price')
+          .find('.product-price-prepend')//.product-price-prepend
           .text()
       );
 
@@ -27,44 +27,17 @@ const parse = data => {
     .get();
 };
 
-
-function parseHomepage(data) {
-  const $ = cheerio.load(data);
-  return $('.js-cmsModule')
-    .map((i, element) => {
-      var href= $(element)
-        .find('a')
-        .attr('href');
-      href="https://www.dedicatedbrand.com"+href;
-      return {href};
-    })
-    .get()
-};
-
 /**
  * Scrape all the products for a given url page
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
+module.exports.scrape2 = async url => {
   const response = await axios(url);
   const {data, status} = response;
 
   if (status >= 200 && status < 300) {
     return parse(data);
-  }
-
-  console.error(status);
-
-  return null;
-};
-
-module.exports.scrapeLinks = async url => {
-  const response = await axios(url);
-  const {data, status} = response;
-
-  if (status >= 200 && status < 300) {
-    return parseHomepage(data);
   }
 
   console.error(status);
