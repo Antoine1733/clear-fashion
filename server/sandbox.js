@@ -3,6 +3,7 @@ const dedicatedbrand = require('./sources/dedicatedbrand');
 const mudjeans= require('./sources/Mudjeans');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const db = require('./db');
 
 
 
@@ -17,7 +18,7 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men') {
     console.log(links);
     finalproduct=[];
     console.log(links[1].href);
-    for (let i=1; i<links.length;i++){
+    for (let i=1; i<links.length-1;i++){
       sublink = links[i].href;
       console.log(sublink)
       products = await dedicatedbrand.scrape(sublink);
@@ -26,7 +27,9 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men') {
       }
     }
     // const products = await dedicatedbrand.scrape('https://www.dedicatedbrand.com/en/men/t-shirts');
-    console.log(finalproduct);
+    //console.log(finalproduct);
+    const result = await db.insert(finalproduct);
+
     console.log('done');
     process.exit(0);
   } catch (e) {
