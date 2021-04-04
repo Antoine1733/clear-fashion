@@ -32,6 +32,12 @@ const getDB = module.exports.getDB = async () => {
   }
 };
 
+module.exports.count = async () => {
+  const db = await getDB();
+  const collection = db.collection(MONGODB_COLLECTION);
+  return db.length;
+}
+
 /**
  * Insert list of products
  * @param  {Array}  products

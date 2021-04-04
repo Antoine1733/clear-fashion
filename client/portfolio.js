@@ -63,6 +63,11 @@ const fetchProducts = async (page = 1, size = 12) => {
 
 function sortt (productss,sortBy)
 {
+
+if(sortBy =="none")
+{
+  return productss
+}
 if(sortBy == "price-asc")
 {
   return productss.filter(products => products.price<=50);
@@ -71,7 +76,6 @@ if(sortBy == "price-desc")
 {
   return productss.filter(products => products.price>50);
 }
-
 if(sortBy == "sort-price-asc")
 {
   return productss.sort((a,b) => a.price - b.price);
@@ -92,8 +96,13 @@ if(sortBy == "2-week-less")
 {
    return productss.filter(product => (Math.round((new Date() - new Date(product.released))/86400000)) <= 15)
 }
+else
+{
+  return productss
+}
 
 }
+
 
 const renderProducts = products => {
   let sortedProduct = [];
@@ -105,7 +114,7 @@ const renderProducts = products => {
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
-        <span>${product.price}</span>
+        <span>${product.price + "€"}</span>
         <span>${product.released}</span>
       </div>
     `;
@@ -117,6 +126,7 @@ const renderProducts = products => {
   sectionProducts.innerHTML = '<h2>Products</h2>';
   sectionProducts.appendChild(fragment);
 };
+
 
 /**
  * Render page selector
@@ -217,13 +227,15 @@ const renderIndicators = pagination => {
 
 
 const render = (products, pagination) => {
+  //renderProducts1(products)
+  renderProducts(products)
   renderIndicators(pagination);
   renderPagination(pagination);
   renderBrand(pagination);
-  renderProducts(products);
+  //renderProducts(products);
   
  // console.log(currentProducts)
-  console.log("lol")
+  //console.log("lol")
 
   
 
