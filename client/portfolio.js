@@ -42,7 +42,10 @@ const fetchProducts = async (page = 1, size = 12) => {
     const response = await fetch(
       `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
-    const body = await response.json();
+    const response2 = await fetch(
+      `https://server-8v88k4lpv-antoinecroissant-devincifr.vercel.app/products?page=${page}&size=${size}`
+    );
+    const body = await response2.json();
 
     if (body.success !== true) {
       console.error(body);
